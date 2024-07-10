@@ -10,12 +10,9 @@ import android.widget.EditText;
 public class NovoTextoActivity extends AppCompatActivity {
 
     public static String EXTRA_TEXTO_ATUAL = "br.ifmg.edu.bsi.progmovel.shareimage1.texto_atual";
-    public static String EXTRA_COR_ATUAL = "br.ifmg.edu.bsi.progmovel.shareimage1.cor_atual";
     public static String EXTRA_NOVO_TEXTO = "br.ifmg.edu.bsi.progmovel.shareimage1.novo_texto";
-    public static String EXTRA_NOVA_COR = "br.ifmg.edu.bsi.progmovel.shareimage1.nova_cor";
 
     private EditText etTexto;
-    private EditText etCor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
