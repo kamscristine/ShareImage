@@ -12,7 +12,12 @@ public class NovoTextoActivity extends AppCompatActivity {
     public static String EXTRA_TEXTO_ATUAL = "br.ifmg.edu.bsi.progmovel.shareimage1.texto_atual";
     public static String EXTRA_NOVO_TEXTO = "br.ifmg.edu.bsi.progmovel.shareimage1.novo_texto";
 
+    public static String EXTRA_NOVA_FONTE_ATUAL = "br.ifmg.edu.bsi.progmovel.shareimage1.nova_fonte";
+    public static String EXTRA_NOVA_FONTE = "br.ifmg.edu.bsi.progmovel.shareimage1.nova_fonte";
+
+
     private EditText etTexto;
+    private EditText etFonte;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,21 +25,23 @@ public class NovoTextoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_novo_texto);
 
         etTexto = findViewById(R.id.etTexto);
-        etCor = findViewById(R.id.etCor);
+        etFonte = findViewById(R.id.etFonte);
 
         Intent intent = getIntent();
         String textoAtual = intent.getStringExtra(EXTRA_TEXTO_ATUAL);
-        String corAtual = intent.getStringExtra(EXTRA_COR_ATUAL);
+        float fonteAtual = intent.getFloatExtra(EXTRA_NOVA_FONTE_ATUAL, 64f);
+
         etTexto.setText(textoAtual);
-        etCor.setText(corAtual);
+        etFonte.setText(String.valueOf(fonteAtual));
+
     }
 
     public void enviarNovoTexto(View v) {
         String novoTexto = etTexto.getText().toString();
-        String novaCor = etCor.getText().toString();
+        String novaFonte = etFonte.getText().toString();
         Intent intent = new Intent();
         intent.putExtra(EXTRA_NOVO_TEXTO, novoTexto);
-        intent.putExtra(EXTRA_NOVA_COR, novaCor);
+        intent.putExtra(EXTRA_NOVA_FONTE, novaFonte);
         setResult(RESULT_OK, intent);
         finish();
     }

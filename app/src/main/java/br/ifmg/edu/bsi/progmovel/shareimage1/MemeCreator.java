@@ -18,15 +18,24 @@ public class MemeCreator {
     private Bitmap fundo;
     private DisplayMetrics displayMetrics;
     private Bitmap meme;
+    private float fonte;
     private boolean dirty; // se true, significa que o meme precisa ser recriado.
 
-    public MemeCreator(String texto, int corTexto, Bitmap fundo, DisplayMetrics displayMetrics) {
+    public MemeCreator(String texto, int corTexto, Bitmap fundo, DisplayMetrics displayMetrics, float fonte) {
         this.texto = texto;
         this.corTexto = corTexto;
         this.fundo = fundo;
         this.displayMetrics = displayMetrics;
         this.meme = criarImagem();
-        this.dirty = false;
+        this.dirty = true;
+        this.fonte = fonte;
+    }
+
+    public float getFonte() { return fonte; }
+
+    public void setFonte(float fonte) {
+        this.fonte = fonte;
+        dirty = true;
     }
 
     public String getTexto() {
@@ -70,6 +79,8 @@ public class MemeCreator {
         }
         return meme;
     }
+
+
     protected Bitmap criarImagem() {
         float heightFactor = (float) fundo.getHeight() / fundo.getWidth();
         int width = displayMetrics.widthPixels;
@@ -89,7 +100,7 @@ public class MemeCreator {
 
         paint.setColor(corTexto);
         paint.setAntiAlias(true);
-        paint.setTextSize(64.f);
+        paint.setTextSize(fonte);
         paint.setTypeface(Typeface.create("sans-serif-condensed", Typeface.BOLD));
         paint.setTextAlign(Paint.Align.CENTER);
         // desenhar texto em cima
