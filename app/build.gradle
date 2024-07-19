@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace 'br.ifmg.edu.bsi.progmovel.shareimage1'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "br.ifmg.edu.bsi.progmovel.shareimage1"
@@ -39,6 +39,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.5.2'
     implementation 'androidx.navigation:navigation-ui:2.5.2'
     implementation 'androidx.exifinterface:exifinterface:1.3.3'
+    implementation 'androidx.recyclerview:recyclerview:1.3.2'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

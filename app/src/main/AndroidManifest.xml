@@ -15,6 +15,12 @@
         android:theme="@style/Theme.ShareImage1"
         tools:targetApi="31">
         <activity
+            android:name=".MemeAdapter"
+            android:exported="false" />
+        <activity
+            android:name=".SelecionarMemeActivity"
+            android:exported="false" />
+        <activity
             android:name=".NewCorActivity"
             android:exported="false" />
         <activity

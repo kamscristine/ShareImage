@@ -38,7 +38,7 @@ import java.io.IOException;
  * Activity que cria uma imagem com um texto e imagem de fundo.
  */
 public class MainActivity extends AppCompatActivity {
-
+    private static final int PICK_MEME = 2;
     private ImageView imageView;
     private MemeCreator memeCreator;
     private final ActivityResultLauncher<Intent> startNovoTexto = registerForActivityResult(new StartActivityForResult(),
@@ -50,8 +50,16 @@ public class MainActivity extends AppCompatActivity {
                         if (intent != null) {
                             String novoTexto = intent.getStringExtra(NovoTextoActivity.EXTRA_NOVO_TEXTO);
                             String novaFonte = intent.getStringExtra(NovoTextoActivity.EXTRA_NOVA_FONTE);
+
+                            String novoTexto2 = intent.getStringExtra(NovoTextoActivity.EXTRA_NOVO_TEXTO2);
+                            String novaFonte2 = intent.getStringExtra(NovoTextoActivity.EXTRA_NOVA_FONTE2);
+
+
                             memeCreator.setTexto(novoTexto);
+                            memeCreator.setTexto2(novoTexto2);
+
                             memeCreator.setFonte(Float.parseFloat(novaFonte));
+                            memeCreator.setFonte2(Float.parseFloat(novaFonte2));
                             mostrarImagem();
                         }
                     }
@@ -67,17 +75,21 @@ public class MainActivity extends AppCompatActivity {
                         Intent intent = result.getData();
                         if (intent != null) {
                             String novaCor = intent.getStringExtra(NewCorActivity.EXTRA_NOVA_COR);
+                            String novaCor2 = intent.getStringExtra(NewCorActivity.EXTRA_NOVA_COR2);
                             if (novaCor == null) {
                                 Toast.makeText(MainActivity.this, "Cor desconhecida. Usando preto no lugar.", Toast.LENGTH_SHORT).show();
                                 novaCor = "BLACK";
                             }
 
                             memeCreator.setCorTexto(Color.parseColor(novaCor.toUpperCase()));
+                            memeCreator.setCorTexto2(Color.parseColor(novaCor2.toUpperCase()));
                             mostrarImagem();
                         }
                     }
                 }
             });
+
+
 
     private final ActivityResultLauncher<PickVisualMediaRequest> startImagemFundo = registerForActivityResult(new PickVisualMedia(),
             new ActivityResultCallback<Uri>() {
@@ -106,6 +118,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
+
+
     private ActivityResultLauncher<String> startWriteStoragePermission = registerForActivityResult(new ActivityResultContracts.RequestPermission(),
             new ActivityResultCallback<Boolean>() {
                 @Override
@@ -126,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
 
         Bitmap imagemFundo = BitmapFactory.decodeResource(getResources(), R.drawable.fry_meme);
 
-        memeCreator = new MemeCreator("Olá Android!", Color.WHITE, imagemFundo, getResources().getDisplayMetrics(), 64f);
+        memeCreator = new MemeCreator("Olá Android!", "Nova frase", Color.WHITE, Color.RED, imagemFundo, getResources().getDisplayMetrics(), 64f, 64f);
         mostrarImagem();
     }
 
@@ -134,12 +148,21 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, NovoTextoActivity.class);
         intent.putExtra(NovoTextoActivity.EXTRA_TEXTO_ATUAL, memeCreator.getTexto());
         intent.putExtra(NovoTextoActivity.EXTRA_NOVA_FONTE_ATUAL, memeCreator.getFonte());
+
+        intent.putExtra(NovoTextoActivity.EXTRA_TEXTO_ATUAL2, memeCreator.getTexto2());
+        intent.putExtra(NovoTextoActivity.EXTRA_NOVA_FONTE_ATUAL2, memeCreator.getFonte2());
+
         startNovoTexto.launch(intent);
     }
+
+
+
+
 
     public void iniciarMudarCor(View v) {
         Intent intent = new Intent(this, NewCorActivity.class);
         intent.putExtra(NewCorActivity.EXTRA_COR_ATUAL, converterCor(memeCreator.getCorTexto()));
+        intent.putExtra(NewCorActivity.EXTRA_COR_ATUAL2, converterCor(memeCreator.getCorTexto2()));
 
         startNovaCor.launch(intent);
 
@@ -217,5 +240,21 @@ public class MainActivity extends AppCompatActivity {
         share.putExtra(Intent.EXTRA_TITLE, "Seu meme fabuloso");
         share.putExtra(Intent.EXTRA_STREAM, imageUri);
         startActivity(Intent.createChooser(share, "Compartilhar Imagem"));
+    }
+
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_MEME && resultCode == Activity.RESULT_OK && data != null) {
+            int memeResId = data.getIntExtra("selected_meme_res_id", -1);
+            if (memeResId != -1) {
+                Bitmap selectedMeme = BitmapFactory.decodeResource(getResources(), memeResId);
+                memeCreator.setFundo(selectedMeme);
+                mostrarImagem();
+            }
+        }
     }
 }

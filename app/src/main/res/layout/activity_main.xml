@@ -54,12 +54,11 @@
                 android:layout_marginStart="9dp"
                 android:contentDescription="@string/mudar_texto"
                 android:onClick="iniciarMudarCor"
-                app:icon="@drawable/outline_color_lens_24"
+                app:icon="@drawable/outline_format_paint_24"
                 app:layout_constraintBaseline_toBaselineOf="@+id/btnTrocarFundo"
                 app:layout_constraintEnd_toStartOf="@+id/btnTrocarFundo"
                 app:layout_constraintHorizontal_chainStyle="spread"
-                app:layout_constraintStart_toEndOf="@id/btnTrocarTexto"
-                />
+                app:layout_constraintStart_toEndOf="@id/btnTrocarTexto" />
 
             <Button
                 android:id="@+id/btnTrocarTexto"
@@ -86,9 +85,8 @@
                 android:onClick="iniciarMudarFundo"
                 app:icon="@drawable/baseline_image_search_24"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/btnTrocarCor"
                 app:layout_constraintEnd_toEndOf="@+id/btnTrocarTexto"
-                />
+                app:layout_constraintStart_toEndOf="@id/btnTrocarCor" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </HorizontalScrollView>
@@ -103,5 +101,7 @@
         app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
