@@ -38,7 +38,7 @@ import java.io.IOException;
  * Activity que cria uma imagem com um texto e imagem de fundo.
  */
 public class MainActivity extends AppCompatActivity {
-    private static final int PICK_MEME = 2;
+    // private static final int PICK_MEME = 2;
     private ImageView imageView;
     private MemeCreator memeCreator;
     private final ActivityResultLauncher<Intent> startNovoTexto = registerForActivityResult(new StartActivityForResult(),
@@ -89,6 +89,29 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
+    public void iniciarMudarTemplate(View view){
+        Intent intent = new Intent(this, TemplateActivity.class);
+        startMudaTemplate.launch(intent);
+    }
+
+    private final ActivityResultLauncher<Intent> startMudaTemplate = registerForActivityResult(new StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent intent = result.getData();
+                        if (intent != null) {
+
+                            byte[] novoTemplate = intent.getByteArrayExtra(TemplateActivity.EXTRA_TEMPLATE_NOVO);
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(novoTemplate, 0, novoTemplate.length);
+                            memeCreator.setFundo(bitmap);
+
+
+                            mostrarImagem();
+                        }
+                    }
+                }
+            });
 
 
     private final ActivityResultLauncher<PickVisualMediaRequest> startImagemFundo = registerForActivityResult(new PickVisualMedia(),
@@ -242,19 +265,4 @@ public class MainActivity extends AppCompatActivity {
         startActivity(Intent.createChooser(share, "Compartilhar Imagem"));
     }
 
-
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_MEME && resultCode == Activity.RESULT_OK && data != null) {
-            int memeResId = data.getIntExtra("selected_meme_res_id", -1);
-            if (memeResId != -1) {
-                Bitmap selectedMeme = BitmapFactory.decodeResource(getResources(), memeResId);
-                memeCreator.setFundo(selectedMeme);
-                mostrarImagem();
-            }
-        }
-    }
 }
